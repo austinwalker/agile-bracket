@@ -43,6 +43,34 @@ $bracket: #999;
 .championship {
   float: left;
   width: 10%;
+  
+  .champion {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .slot {
+    padding: 5px;
+    padding-top: 100px;
+    border-left: 1px solid $bracket;
+    border-right: 1px solid $bracket;
+    border-bottom: 1px solid $bracket;
+    
+    &.champion-left {
+      margin-top: 87px;
+    }
+    
+    &.champion-right {
+      text-align: right;
+      padding-top: 110px;
+    }
+  }
+
+  .championship-filler {
+    padding-top: 82px;
+    border-left: 1px solid $bracket; 
+    border-right: 1px solid $bracket; 
+  }
 }
 
 %round {
