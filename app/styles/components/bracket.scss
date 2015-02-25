@@ -1,0 +1,124 @@
+$bracket-base: 10px;
+$bracket: #999;
+
+.region {
+  // @include font-size(1.1);
+  font-size: 11px;
+}
+
+.region-left {
+  .slot {
+    border-bottom: 1px solid $bracket;
+    padding: $bracket-base * .5;
+    &:nth-child(even) {
+      border-right: 1px solid $bracket;
+    }
+  }  
+}
+
+.region-right {
+  width: 100%;
+
+  .round-4,
+  .round-8,
+  .round-16,
+  .round-32,
+  .round-64 {
+    float: right;
+  }  
+  .slot {
+    border-bottom: 1px solid $bracket;
+    padding: $bracket-base * .5;
+    text-align: right;
+    &:nth-child(even) {
+      border-left: 1px solid $bracket;
+    }
+  }
+  .slot-inner {
+    padding-right: 0;
+    padding-left: 5px;
+  }
+}
+
+.championship {
+  float: left;
+  width: 10%;
+}
+
+%round {
+  float: left;
+}
+
+.round-4,
+.round-8,
+.round-16,
+.round-32 {
+  @extend %round;
+  // @include font-size(1.4);
+  font-size: 14px;
+  width: 22.5%;
+}
+
+.round-64 {
+  @extend %round;
+  width: 10%;
+  
+  .slot {
+    padding: 5px 0;
+  }
+
+  .slot-inner {
+    background-color: white;
+    position: relative;
+    top: 10px;
+    padding-right: 5px;
+  }
+}
+
+.round-32 {
+  .slot {
+    padding-top: 12px;
+    
+    &:nth-child(even) {
+      margin-bottom: 11px;
+      padding-top: 25px;
+    }
+  }  
+}
+
+.round-16 {
+  .slot {
+    padding-top: 35px;
+    
+    &:nth-child(even) {
+      margin-bottom: 30px;
+      padding-top: 70px;
+    }
+  }  
+}
+
+.round-8 {
+  .slot {
+    padding-top: 80px;
+    
+    &:nth-child(even) {
+      padding-top: 155px;
+    }
+  }  
+}
+
+.round-4 {
+  .slot {
+    padding-top: 150px;
+  }  
+}
+
+.side-right,
+.side-left {
+  float: left;
+  width: 45%;
+}
+
+.region {
+  @extend .cf;
+}

@@ -1,0 +1,17 @@
+html {
+  font-size: 62.5%; /* Sets up the Base 10 stuff */
+}
+
+body {
+  @include font-size(1.6);
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
