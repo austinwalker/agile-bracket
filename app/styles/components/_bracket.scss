@@ -1,9 +1,13 @@
 $bracket-base: 10px;
 $bracket: #999;
 
+@mixin font-size($sizeValue: 1.6) {
+  font-size: ($sizeValue * 10) + px;
+  font-size: $sizeValue + rem;
+}
+
 .region {
-  // @include font-size(1.1);
-  font-size: 11px;
+  @include font-size(1.1);
 }
 
 .region-left {
@@ -34,7 +38,7 @@ $bracket: #999;
       border-left: 1px solid $bracket;
     }
   }
-  .slot-inner {
+  .team {
     padding-right: 0;
     padding-left: 5px;
   }
@@ -82,7 +86,7 @@ $bracket: #999;
 .round-16,
 .round-32 {
   @extend %round;
-  // @include font-size(1.4);
+  @include font-size(1.4);
   font-size: 14px;
   width: 22.5%;
 }
@@ -95,7 +99,7 @@ $bracket: #999;
     padding: 5px 0;
   }
 
-  .slot-inner {
+  .team {
     background-color: white;
     position: relative;
     top: 10px;
