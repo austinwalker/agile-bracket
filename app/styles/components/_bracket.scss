@@ -14,10 +14,15 @@ $bracket: #999;
   .slot {
     border-bottom: 1px solid $bracket;
     padding: $bracket-base * .5;
+    position: relative;
     &:nth-child(even) {
       border-right: 1px solid $bracket;
     }
   }  
+  .team {
+    bottom: 0;
+    position: absolute;
+  }
 }
 
 .region-right {
@@ -33,14 +38,28 @@ $bracket: #999;
   .slot {
     border-bottom: 1px solid $bracket;
     padding: $bracket-base * .5;
-    text-align: right;
+    position: relative;
     &:nth-child(even) {
       border-left: 1px solid $bracket;
     }
   }
   .team {
+    bottom: 0;
     padding-right: 0;
     padding-left: 5px;
+    position: absolute;
+    right: 5px;
+  }
+  .round-64 {
+    .slot {
+      padding-right: 0;
+      position: relative;
+      text-align: right;
+      right: 0;
+    }
+    .team {
+      right: 0;
+    }
   }
 }
 
@@ -109,32 +128,32 @@ $bracket: #999;
 
 .round-32 {
   .slot {
-    padding-top: 12px;
+    height: 32px;
     
     &:nth-child(even) {
-      margin-bottom: 11px;
-      padding-top: 25px;
+      margin-bottom: 10px;
+      height: 46px;
     }
   }  
 }
 
 .round-16 {
   .slot {
-    padding-top: 35px;
+    height: 55px;
     
     &:nth-child(even) {
+      height: 90px;
       margin-bottom: 30px;
-      padding-top: 70px;
     }
   }  
 }
 
 .round-8 {
   .slot {
-    padding-top: 80px;
+    height: 100px;
     
     &:nth-child(even) {
-      padding-top: 155px;
+      height: 175px;
     }
   }  
 }
