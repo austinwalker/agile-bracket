@@ -37,22 +37,60 @@
   
   </div>
 
-  <div class="championship">
-    <div class="champion">
-      <h5>
-        Champion
-      </h5>
-      1. Kansas
+  <div class="finals">
+    <div class="region-left">
+      <span class="round-4">
+        <div class="game">
+          <div class="slot">
+            <span class="team" ng-click="advanceTeam(finalsLeft.team1, finalsLeft)">
+              {{finalsLeft.team1}}
+            </span>
+          </div>
+          <div class="slot">
+            <span class="team" ng-click="advanceTeam(finalsLeft.team2, finalsLeft)">
+              {{finalsLeft.team2}}
+            </span>
+          </div>  
+        </div>
+      </span>
+    </div>  
+  
+    <div class="championship">
+      <div class="champion">
+        <h5>
+          Champion
+        </h5>
+        &nbsp;
+        {{championship.winnerId}}
+      </div>
+      <div class="slot champion-left">
+        <span class="team" ng-click="championship.winnerId = championship.team1">
+          {{championship.team1}}
+        </span>
+      </div>
+      <div class="slot champion-right">
+        <span class="team" ng-click="championship.winnerId = championship.team2">
+          {{championship.team2}}
+        </span>
+      </div>
     </div>
-    <div class="slot champion-left">
-      1. Kansas
-    </div>
-    <div class="slot champion-right">
-      1. Kansas
-    </div>
-    <div class="championship-filler">
-      &nbsp;
-    </div>
+  
+    <div class="region-right">
+      <span class="round-4">
+        <div class="game">
+          <div class="slot">
+            <span class="team" ng-click="advanceTeam(finalsRight.team1, finalsRight)">
+              {{finalsRight.team1}}
+            </span>
+          </div>
+          <div class="slot">
+            <span class="team" ng-click="advanceTeam(finalsRight.team2, finalsRight)">
+              {{finalsRight.team2}}
+            </span>
+          </div>  
+        </div>
+      </span>
+    </div>  
   </div>
 
   <div class="side-right">

@@ -1,11 +1,6 @@
 $bracket-base: 10px;
 $bracket: #999;
 
-@mixin font-size($sizeValue: 1.6) {
-  font-size: ($sizeValue * 10) + px;
-  font-size: $sizeValue + rem;
-}
-
 .region {
   @include font-size(1.1);
 }
@@ -63,9 +58,14 @@ $bracket: #999;
   }
 }
 
+.finals {
+  @extend %round;
+  width: 30%
+}
+
 .championship {
   float: left;
-  width: 10%;
+  width: 44%;
   
   .champion {
     text-align: center;
@@ -73,26 +73,29 @@ $bracket: #999;
   }
   
   .slot {
-    padding: 5px;
-    padding-top: 100px;
-    border-left: 1px solid $bracket;
-    border-right: 1px solid $bracket;
     border-bottom: 1px solid $bracket;
+    height: 130px;
+    padding: 5px;
+    position: relative;
     
     &.champion-left {
       margin-top: 87px;
+      width: 90%;
     }
     
     &.champion-right {
-      text-align: right;
-      padding-top: 110px;
+      float: right;
+      width: 90%;
+
+      .team {
+        right: 5px;
+      }
     }
   }
-
-  .championship-filler {
-    padding-top: 82px;
-    border-left: 1px solid $bracket; 
-    border-right: 1px solid $bracket; 
+  
+  .team {
+    position: absolute;
+    bottom: 0
   }
 }
 
@@ -106,13 +109,12 @@ $bracket: #999;
 .round-32 {
   @extend %round;
   @include font-size(1.4);
-  font-size: 14px;
-  width: 22.5%;
+  width: 28%;
 }
 
 .round-64 {
   @extend %round;
-  width: 10%;
+  width: 16%;
   
   .slot {
     padding: 5px 0;
@@ -122,7 +124,7 @@ $bracket: #999;
     background-color: white;
     position: relative;
     top: 10px;
-    padding-right: 5px;
+    padding: 0 5px;
   }
 }
 
@@ -160,14 +162,18 @@ $bracket: #999;
 
 .round-4 {
   .slot {
-    padding-top: 150px;
+    height: 185px;
+
+    &:nth-child(even) {
+      height: 375px;
+    }
   }  
 }
 
 .side-right,
 .side-left {
   float: left;
-  width: 45%;
+  width: 35%;
 }
 
 .region {

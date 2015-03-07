@@ -11,9 +11,10 @@ angular.module('agileBracketApp')
   .controller('BracketCtrl', function ($scope, FBURL, $firebase, _) {
     
     // Set bracket structure
-    var bracket = {south: [], west: [], east: [], midwest: []};
-    var regionalRounds = [2, 3, 4, 5, 6];
+    var bracket = {south: [], west: [], east: [], midwest: [], finals: []};
+    var regionalRounds = [2, 3, 4, 5];
     var regions = ['south', 'west', 'east', 'midwest'];
+    var finalRounds = [6, 7, 8];
 
     // Get game data
     var gamesRef = new Firebase(FBURL + '/games');
@@ -29,12 +30,21 @@ angular.module('agileBracketApp')
           bracket[region].push(rndGames);
         });
       });
+      _.forEach(finalRounds, function(round) {
+        var rndGames = _.filter(data, {'round': round });           
+        bracket.finals.push(rndGames);
+      });
       
-      console.log(games);
-      // console.log(bracket);
+      // console.log(games);
+      console.log(bracket);
+      
+      $scope.bracket = bracket;
+      $scope.finalsLeft = bracket.finals[0][0];
+      $scope.finalsRight = bracket.finals[0][1];
+      $scope.championship = bracket.finals[1][0];
     });
-    
-    $scope.bracket = bracket;
+
+
 
     // Used to abstract out classes for ng-repeat
     $scope.getRoundClass = function(i) {
@@ -42,9 +52,11 @@ angular.module('agileBracketApp')
       return roundClasses[i];  
     };
 
+    // AWTODO: Refactor into directive and combine with animations
     $scope.advanceTeam = function(teamId, gameInfo) {
-      var gameIndex = _.findKey(games, { '$id': gameInfo.nextGame});
-      games[gameIndex][gameInfo.nextSlot] = teamId;
+      var targetGameKey = _.findKey(games, { '$id': gameInfo.nextGame});
+      var targetSlot = gameInfo.nextSlot;
+      games[targetGameKey][targetSlot] = teamId;
     };
 
   });
