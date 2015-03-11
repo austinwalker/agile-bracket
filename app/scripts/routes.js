@@ -77,12 +77,7 @@ angular.module('agileBracketApp')
         controller: 'AccountCtrl'
       })
 
-      .when('/chat', {
-        templateUrl: 'views/chat.html',
-        controller: 'ChatCtrl'
-      })
-      
-      .when('/bracket', {
+      .whenAuthenticated('/bracket', {
         templateUrl: 'views/bracket.html',
         controller: 'BracketCtrl'
       })

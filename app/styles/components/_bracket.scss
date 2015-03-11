@@ -14,10 +14,6 @@ $bracket: #999;
       border-right: 1px solid $bracket;
     }
   }  
-  .team {
-    bottom: 0;
-    position: absolute;
-  }
 }
 
 .region-right {
@@ -38,21 +34,11 @@ $bracket: #999;
       border-left: 1px solid $bracket;
     }
   }
-  .team {
-    bottom: 0;
-    padding-right: 0;
-    padding-left: 5px;
-    position: absolute;
-    right: 5px;
-  }
   .round-64 {
     .slot {
       padding-right: 0;
       position: relative;
       text-align: right;
-      right: 0;
-    }
-    .team {
       right: 0;
     }
   }
@@ -86,17 +72,9 @@ $bracket: #999;
     &.champion-right {
       float: right;
       width: 90%;
-
-      .team {
-        right: 5px;
-      }
     }
   }
-  
-  .team {
-    position: absolute;
-    bottom: 0
-  }
+
 }
 
 %round {
@@ -118,13 +96,6 @@ $bracket: #999;
   
   .slot {
     padding: 5px 0;
-  }
-
-  .team {
-    background-color: white;
-    position: relative;
-    top: 10px;
-    padding: 0 5px;
   }
 }
 

@@ -8,6 +8,7 @@
  */
 angular.module('agileBracketApp')
   .controller('AccountCtrl', function ($scope, user, simpleLogin, fbutil, $timeout) {
+    
     $scope.user = user;
     $scope.logout = simpleLogin.logout;
     $scope.messages = [];

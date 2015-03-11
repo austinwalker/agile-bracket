@@ -8,22 +8,30 @@
  * Controller of the agileBracketApp
  */
 angular.module('agileBracketApp')
-  .controller('BracketCtrl', function ($scope, FBURL, $firebase, _) {
-    
-    // Set bracket structure
+  .controller('BracketCtrl', function (
+    $scope, 
+    user,
+    FBURL, 
+    $firebase, 
+    _
+  ) {
+
+    // Bracket structure
     var bracket = {south: [], west: [], east: [], midwest: [], finals: []};
     var regionalRounds = [2, 3, 4, 5];
     var regions = ['south', 'west', 'east', 'midwest'];
     var finalRounds = [6, 7, 8];
 
-    // Get game data
-    var gamesRef = new Firebase(FBURL + '/games');
-    // var teamsRef = new Firebase(FBURL + '/teams');
-    var games = $firebase(gamesRef).$asArray();
-    // var teams = $firebase(ref + '/teams').$asArray();
+    // Firebase references and data
+    var ref = new Firebase(FBURL);
+    var games = $firebase(ref.child('games')).$asArray();
     
-    // Sort the games into regions and rounds
-    games.$loaded().then(function(data) {
+    // User
+    $scope.user = user;
+
+    // Create the bracket
+    games.$loaded(function(data) {
+      
       _.forEach(regions, function(region) {
         _.forEach(regionalRounds, function(round) {
           var rndGames = _.filter(data, { 'region': region, 'round': round });           
@@ -35,16 +43,12 @@ angular.module('agileBracketApp')
         bracket.finals.push(rndGames);
       });
       
-      // console.log(games);
-      console.log(bracket);
-      
       $scope.bracket = bracket;
       $scope.finalsLeft = bracket.finals[0][0];
       $scope.finalsRight = bracket.finals[0][1];
       $scope.championship = bracket.finals[1][0];
+
     });
-
-
 
     // Used to abstract out classes for ng-repeat
     $scope.getRoundClass = function(i) {
@@ -52,11 +56,38 @@ angular.module('agileBracketApp')
       return roundClasses[i];  
     };
 
-    // AWTODO: Refactor into directive and combine with animations
-    $scope.advanceTeam = function(teamId, gameInfo) {
-      var targetGameKey = _.findKey(games, { '$id': gameInfo.nextGame});
+    $scope.advanceTeam = function(slotToAdvance, gameInfo) {
+      
+      // Move the team forward
+      var targetGameId = _.findKey(games, { '$id': gameInfo.nextGame});
       var targetSlot = gameInfo.nextSlot;
-      games[targetGameKey][targetSlot] = teamId;
+      games[targetGameId][targetSlot] = gameInfo[slotToAdvance];
+
+      // Deal with future picks that are now impossible
+      // This is not refreshing the view
+      removeImpossiblePicks(slotToAdvance, gameInfo, games[targetGameId]);
+
     };
+
+    function removeImpossiblePicks(teamPicked, gameInfo, nextGameInfo) {
+      
+      console.log(gameInfo);
+      console.log(nextGameInfo);
+
+      // Determine which team needs to be removed from future picks
+      var teamNotPicked;
+      if (teamPicked === 'team1') {
+        teamNotPicked = 'team2';
+      } else {
+        teamNotPicked = 'team1';
+      }
+
+      var teamInNextSlot = nextGameInfo[gameInfo.nextSlot];
+      console.log(teamInNextSlot);
+      if (teamInNextSlot === teamNotPicked) {
+        teamInNextSlot = '';
+        // teamInNextSlot = games[nextGameInfo.nextSlot]
+      }
+    }
 
   });

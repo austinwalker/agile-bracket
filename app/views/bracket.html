@@ -1,19 +1,11 @@
-<div ng-controller="BracketCtrl">
+<div>
+  <pre>{{user.twitter.displayName}}'s Bracket</pre>
   <div class="side-left">
     
     <div class="region region-left">
       <span ng-repeat="round in bracket.south" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team1, game)">
-              {{game.team1}}
-            </span>
-          </div>
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team2, game)">
-              {{game.team2}}
-            </span>
-          </div>  
+          <ab-render-game></ab-render-game>
         </div>
       </span>
     </div>
@@ -21,16 +13,7 @@
     <div class="region region-left">
       <span ng-repeat="round in bracket.east" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team1, game)">
-              {{game.team1}}
-            </span>
-          </div>
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team2, game)">
-              {{game.team2}}
-            </span>
-          </div>  
+          <ab-render-game></ab-render-game>
         </div>
       </span>
     </div>
@@ -42,14 +25,18 @@
       <span class="round-4">
         <div class="game">
           <div class="slot">
-            <span class="team" ng-click="advanceTeam(finalsLeft.team1, finalsLeft)">
-              {{finalsLeft.team1}}
-            </span>
+            <div class="teams">
+              <div class="team" ng-click="advanceTeam(finalsLeft.team1, finalsLeft)">
+                {{finalsLeft.team1}}
+              </div>
+            </div>
           </div>
           <div class="slot">
-            <span class="team" ng-click="advanceTeam(finalsLeft.team2, finalsLeft)">
-              {{finalsLeft.team2}}
-            </span>
+            <div class="teams">
+              <div class="team" ng-click="advanceTeam(finalsLeft.team2, finalsLeft)">
+                {{finalsLeft.team2}}
+              </div>
+            </div>
           </div>  
         </div>
       </span>
@@ -64,14 +51,18 @@
         {{championship.winnerId}}
       </div>
       <div class="slot champion-left">
-        <span class="team" ng-click="championship.winnerId = championship.team1">
-          {{championship.team1}}
-        </span>
+        <div class="teams">
+          <div class="team" ng-click="championship.winnerId = championship.team1">
+            {{championship.team1}}
+          </div>
+        </div>
       </div>
       <div class="slot champion-right">
-        <span class="team" ng-click="championship.winnerId = championship.team2">
-          {{championship.team2}}
-        </span>
+        <div class="teams">
+          <div class="team" ng-click="championship.winnerId = championship.team2">
+            {{championship.team2}}
+          </div>
+        </div>
       </div>
     </div>
   
@@ -79,14 +70,18 @@
       <span class="round-4">
         <div class="game">
           <div class="slot">
-            <span class="team" ng-click="advanceTeam(finalsRight.team1, finalsRight)">
-              {{finalsRight.team1}}
-            </span>
+            <div class="teams">
+              <div class="team" ng-click="advanceTeam(finalsRight.team1, finalsRight)">
+                {{finalsRight.team1}}
+              </div>
+            </div>
           </div>
           <div class="slot">
-            <span class="team" ng-click="advanceTeam(finalsRight.team2, finalsRight)">
-              {{finalsRight.team2}}
-            </span>
+            <div class="teams">
+              <div class="team" ng-click="advanceTeam(finalsRight.team2, finalsRight)">
+                {{finalsRight.team2}}
+              </div>
+            </div>
           </div>  
         </div>
       </span>
@@ -98,16 +93,7 @@
     <div class="region region-right">
       <span ng-repeat="round in bracket.west" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team1, game)">
-              {{game.team1}}
-            </span>
-          </div>
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team2, game)">
-              {{game.team2}}
-            </span>
-          </div>  
+          <ab-render-game></ab-render-game>
         </div>
       </span>
     </div>
@@ -115,16 +101,7 @@
     <div class="region region-right">
       <span ng-repeat="round in bracket.midwest" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team1, game)">
-              {{game.team1}}
-            </span>
-          </div>
-          <div class="slot">
-            <span class="team" ng-click="advanceTeam(game.team2, game)">
-              {{game.team2}}
-            </span>
-          </div>  
+          <ab-render-game></ab-render-game>
         </div>
       </span>
     </div>

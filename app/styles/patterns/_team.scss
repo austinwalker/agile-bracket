@@ -1,4 +1,50 @@
+.teams {
+  display: inline-block;
+}
+
+.region-left {
+  .teams {
+    bottom: 0;
+    position: absolute;
+  }
+}
+
+.region-right {
+  .teams {
+    bottom: 0;
+    padding-right: 0;
+    padding-left: 5px;
+    position: absolute;
+    right: 5px;
+  }
+  .round-64 .teams {
+    right: 0;
+  }
+}
+
+.round-64 {
+  .teams {
+    background-color: white;
+    position: relative;
+    top: 10px;
+    padding: 0 5px;
+  }
+}
+
+.championship {
+  .teams {
+    position: absolute;
+    bottom: 0
+  }
+}
+
+.champion-right {
+  .teams {
+    right: 5px;
+  } 
+}
+
 .team-wrong {
-  text-decoration: line-through;
   margin-right: 5px;
+  text-decoration: line-through;
 }

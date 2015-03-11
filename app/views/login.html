@@ -6,6 +6,7 @@
   <p>
     <button  ng-click="oauthLogin('facebook')">Facebook</button>
     <button  ng-click="oauthLogin('twitter')">Twitter</button>
+    <button  ng-click="oauthLogin('github')">GitHub</button>
   </p>
 </fieldset>
 
@@ -31,5 +32,6 @@
     <button  ng-cloak ng-show="createMode" ng-click="createMode = false">Cancel</button>
   </p>
 </form>
+
 <p ng-show="err" class="error">{{err}}</p>
 
