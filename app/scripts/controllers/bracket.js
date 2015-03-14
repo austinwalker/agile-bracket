@@ -22,32 +22,49 @@ angular.module('agileBracketApp')
     var regions = ['south', 'west', 'east', 'midwest'];
     var finalRounds = [6, 7, 8];
     var championshipIndex = 62;
+    var picks = [];
 
     // Firebase references and data
     var ref = new Firebase(FBURL);
-    var games = $firebase(ref.child('games')).$asArray();
     
-    // User
-    $scope.user = user;
+    var games = $firebase(ref.child('games')).$asArray();
+    var usersRef = ref.child('users');
+    
+
 
     // Create the bracket
     games.$loaded(function(data) {
       
       _.forEach(regions, function(region) {
         _.forEach(regionalRounds, function(round) {
-          var rndGames = _.filter(data, { 'region': region, 'round': round } );           
-          bracket[region].push(rndGames); // JW: Just push an obj with team1 and team2, use lookup for advance instead of on the actual object
+          var rndGames = _.filter(data, { 'region': region, 'round': round } );
+          // JW: Just push an obj with team1 and team2, 
+          // use lookup for advance instead of on the actual object?
+          bracket[region].push(rndGames); 
         });
       });
       _.forEach(finalRounds, function(round) {
         var rndGames = _.filter(data, {'round': round });           
         bracket.finals.push(rndGames);
       });
-      console.log(bracket.finals[1][0]);
+
+      // Set up data for UI rendering
       $scope.bracket = bracket;
       $scope.finalsLeft = bracket.finals[0][0];
       $scope.finalsRight = bracket.finals[0][1];
       $scope.championship = bracket.finals[1][0];
+
+      // Save a reduced copy to the user
+      _.forEach(data, function(game) {
+        picks.push({
+          gameId: game.$id,
+          winnerId: ''
+        });
+      });
+
+      usersRef.child(user.uid).set({
+        games: picks
+      });
 
     });
 
@@ -58,23 +75,23 @@ angular.module('agileBracketApp')
     };
 
     $scope.advanceTeam = function(slotToAdvance, gameInfo) {
-      // Check if it's the championship game
-      if (gameInfo.$id === 'game63') {
-        games[championshipIndex].winnerId = gameInfo[slotToAdvance];
+      // Set the winner of the game
+      var gameIndex = getGameIndex(gameInfo.$id);
+      games[gameIndex].winnerId = gameInfo[slotToAdvance];
+
+      // Move the team forward
+      var targetGameIndex = getGameIndex(gameInfo.nextGame);
+      var targetSlot = gameInfo.nextSlot;
+      games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];
+
+      // Deal with future picks that are now impossible
+      var slotNotPicked = getSlotNotPicked(slotToAdvance);
+      var teamIdNotPicked = gameInfo[slotNotPicked];
+      removeImpossiblePicks(teamIdNotPicked, gameInfo);
+
+      // Update users bracket
       
-      } else {
-        // Move the team forward
-        var targetGameIndex = getGameIndex(gameInfo.nextGame);
-        var targetSlot = gameInfo.nextSlot;
-        games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];
 
-        // Deal with future picks that are now impossible
-        var slotNotPicked = getSlotNotPicked(slotToAdvance);
-        var teamIdNotPicked = gameInfo[slotNotPicked];
-        removeImpossiblePicks(teamIdNotPicked, gameInfo);
-
-        // Save advancement to user's bracket  
-      }
     };
 
     function removeImpossiblePicks(teamNotPicked, gameInfo) {
@@ -99,8 +116,6 @@ angular.module('agileBracketApp')
         }
         removeImpossiblePicks(teamIdNotPicked, games[nextGameIndex]);
       }
-
-
     }
 
     function getGameIndex(gameId) {
