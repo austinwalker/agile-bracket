@@ -21,6 +21,7 @@ angular.module('agileBracketApp')
     var regionalRounds = [2, 3, 4, 5];
     var regions = ['south', 'west', 'east', 'midwest'];
     var finalRounds = [6, 7, 8];
+    var championshipIndex = 62;
 
     // Firebase references and data
     var ref = new Firebase(FBURL);
@@ -42,7 +43,7 @@ angular.module('agileBracketApp')
         var rndGames = _.filter(data, {'round': round });           
         bracket.finals.push(rndGames);
       });
-
+      console.log(bracket.finals[1][0]);
       $scope.bracket = bracket;
       $scope.finalsLeft = bracket.finals[0][0];
       $scope.finalsRight = bracket.finals[0][1];
@@ -57,51 +58,64 @@ angular.module('agileBracketApp')
     };
 
     $scope.advanceTeam = function(slotToAdvance, gameInfo) {
+      // Check if it's the championship game
+      if (gameInfo.$id === 'game63') {
+        games[championshipIndex].winnerId = gameInfo[slotToAdvance];
       
-      // Move the team forward
-      var targetGameIndex = getGameIndex(gameInfo.nextGame);
-      var targetSlot = gameInfo.nextSlot;
-      games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];
+      } else {
+        // Move the team forward
+        var targetGameIndex = getGameIndex(gameInfo.nextGame);
+        var targetSlot = gameInfo.nextSlot;
+        games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];
 
-      // Deal with future picks that are now impossible
-      removeImpossiblePicks(slotToAdvance, gameInfo);
+        // Deal with future picks that are now impossible
+        var slotNotPicked = getSlotNotPicked(slotToAdvance);
+        var teamIdNotPicked = gameInfo[slotNotPicked];
+        removeImpossiblePicks(teamIdNotPicked, gameInfo);
 
-      // Save advancement to user's bracket
-
-
+        // Save advancement to user's bracket  
+      }
     };
 
-    function removeImpossiblePicks(slotPicked, gameInfo) {
-
-      var slotNotPicked;
-      if (slotPicked === 'team1') {
-        slotNotPicked = 'team2';
-      } else {
-        slotNotPicked = 'team1';
-      }
+    function removeImpossiblePicks(teamNotPicked, gameInfo) {
+      var teamIdNotPicked = teamNotPicked;
 
       var nextGameId = gameInfo.nextGame;
-      var nextSlot = gameInfo.nextSlot;
-      var teamIdNotPicked = gameInfo[slotNotPicked];
-      
       var nextGameIndex = getGameIndex(nextGameId);
-      var nextNextGameId = games[nextGameIndex].nextGame;
-      var nextNextGameIndex = getGameIndex(nextNextGameId);
-      var nextNextTeam = games[nextNextGameIndex][nextSlot];
       
-      console.log('nextNextTeam: ' + nextNextTeam + ' | teamIdNotPicked: ' + teamIdNotPicked);
-      if (nextNextTeam === teamIdNotPicked) {
-        games[nextNextGameIndex][nextSlot] = '';
-        console.log('remove pick');
+      var nextNextGameId = games[nextGameIndex].nextGame;
+      var nextNextSlot = games[nextGameIndex].nextSlot;
+      var nextNextGameIndex = getGameIndex(nextNextGameId);
+
+      if (games[championshipIndex].winnerId === teamIdNotPicked) {
+        games[championshipIndex].winnerId = '';
       }
 
-      removeImpossiblePicks();
+      // If there's actually a next next game...
+      if (nextNextGameIndex) {
+        var nextNextTeam = games[nextNextGameIndex][nextNextSlot];  
+        if (nextNextTeam && nextNextTeam === teamIdNotPicked) {
+          games[nextNextGameIndex][nextNextSlot] = '';
+        }
+        removeImpossiblePicks(teamIdNotPicked, games[nextGameIndex]);
+      }
+
 
     }
 
     function getGameIndex(gameId) {
       var index = _.findKey(games, { '$id': gameId});
       return index;
+    }
+
+    function getSlotNotPicked(slotPicked) {
+      var slotNotPicked;
+      if (slotPicked === 'team1') {
+        slotNotPicked = 'team2';
+      } else {
+        slotNotPicked = 'team1';
+      }
+      return slotNotPicked;
     }
 
     // Wire up storing user picks
