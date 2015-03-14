@@ -34,15 +34,15 @@ angular.module('agileBracketApp')
       
       _.forEach(regions, function(region) {
         _.forEach(regionalRounds, function(round) {
-          var rndGames = _.filter(data, { 'region': region, 'round': round });           
-          bracket[region].push(rndGames);
+          var rndGames = _.filter(data, { 'region': region, 'round': round } );           
+          bracket[region].push(rndGames); // JW: Just push an obj with team1 and team2, use lookup for advance instead of on the actual object
         });
       });
       _.forEach(finalRounds, function(round) {
         var rndGames = _.filter(data, {'round': round });           
         bracket.finals.push(rndGames);
       });
-      
+
       $scope.bracket = bracket;
       $scope.finalsLeft = bracket.finals[0][0];
       $scope.finalsRight = bracket.finals[0][1];
@@ -59,35 +59,64 @@ angular.module('agileBracketApp')
     $scope.advanceTeam = function(slotToAdvance, gameInfo) {
       
       // Move the team forward
-      var targetGameId = _.findKey(games, { '$id': gameInfo.nextGame});
+      var targetGameIndex = getGameIndex(gameInfo.nextGame);
       var targetSlot = gameInfo.nextSlot;
-      games[targetGameId][targetSlot] = gameInfo[slotToAdvance];
+      games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];
 
       // Deal with future picks that are now impossible
-      // This is not refreshing the view
-      removeImpossiblePicks(slotToAdvance, gameInfo, games[targetGameId]);
+      removeImpossiblePicks(slotToAdvance, gameInfo);
+
+      // Save advancement to user's bracket
+
 
     };
 
-    function removeImpossiblePicks(teamPicked, gameInfo, nextGameInfo) {
-      
-      console.log(gameInfo);
-      console.log(nextGameInfo);
+    function removeImpossiblePicks(slotPicked, gameInfo) {
 
-      // Determine which team needs to be removed from future picks
-      var teamNotPicked;
-      if (teamPicked === 'team1') {
-        teamNotPicked = 'team2';
+      var slotNotPicked;
+      if (slotPicked === 'team1') {
+        slotNotPicked = 'team2';
       } else {
-        teamNotPicked = 'team1';
+        slotNotPicked = 'team1';
       }
 
-      var teamInNextSlot = nextGameInfo[gameInfo.nextSlot];
-      console.log(teamInNextSlot);
-      if (teamInNextSlot === teamNotPicked) {
-        teamInNextSlot = '';
-        // teamInNextSlot = games[nextGameInfo.nextSlot]
+      var nextGameId = gameInfo.nextGame;
+      var nextSlot = gameInfo.nextSlot;
+      var teamIdNotPicked = gameInfo[slotNotPicked];
+      
+      var nextGameIndex = getGameIndex(nextGameId);
+      var nextNextGameId = games[nextGameIndex].nextGame;
+      var nextNextGameIndex = getGameIndex(nextNextGameId);
+      var nextNextTeam = games[nextNextGameIndex][nextSlot];
+      
+      console.log('nextNextTeam: ' + nextNextTeam + ' | teamIdNotPicked: ' + teamIdNotPicked);
+      if (nextNextTeam === teamIdNotPicked) {
+        games[nextNextGameIndex][nextSlot] = '';
+        console.log('remove pick');
       }
+
+      removeImpossiblePicks();
+
     }
+
+    function getGameIndex(gameId) {
+      var index = _.findKey(games, { '$id': gameId});
+      return index;
+    }
+
+    // Wire up storing user picks
+    // JW: Make total game list copy per user (of just teams and winner)
+    // JW: Update the users game list on click of the UI
+
+    // Wire up rendering user picks
+
+    // Wire up scoring user picks
+    // JW: If game list per user, just loop through and compare
+
+    // Wire up agile picking
+    // JW: When they click to adavnce a team, check to see if master list has a winner id, if so, the game has already been played
+
+    // Wire up agile scoring
+    // JW: Have 'Current Round' Firebase property to help lock down past picks.
 
   });
