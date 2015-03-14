@@ -26,14 +26,14 @@
         <div class="game">
           <div class="slot">
             <div class="teams">
-              <div class="team" ng-click="advanceTeam('team1', finalsLeft)">
+              <div class="team" ng-click="makePick('team1', finalsLeft)">
                 {{finalsLeft.team1}}
               </div>
             </div>
           </div>
           <div class="slot">
             <div class="teams">
-              <div class="team" ng-click="advanceTeam('team2', finalsLeft)">
+              <div class="team" ng-click="makePick('team2', finalsLeft)">
                 {{finalsLeft.team2}}
               </div>
             </div>
@@ -52,14 +52,14 @@
       </div>
       <div class="slot champion-left">
         <div class="teams">
-          <div class="team" ng-click="advanceTeam('team1', championship)">
+          <div class="team" ng-click="makePick('team1', championship)">
             {{championship.team1}}
           </div>
         </div>
       </div>
       <div class="slot champion-right">
         <div class="teams">
-          <div class="team" ng-click="advanceTeam('team2', championship)">
+          <div class="team" ng-click="makePick('team2', championship)">
             {{championship.team2}}
           </div>
         </div>
@@ -71,14 +71,14 @@
         <div class="game">
           <div class="slot">
             <div class="teams">
-              <div class="team" ng-click="advanceTeam('team1', finalsRight)">
+              <div class="team" ng-click="makePick('team1', finalsRight)">
                 {{finalsRight.team1}}
               </div>
             </div>
           </div>
           <div class="slot">
             <div class="teams">
-              <div class="team" ng-click="advanceTeam('team2', finalsRight)">
+              <div class="team" ng-click="makePick('team2', finalsRight)">
                 {{finalsRight.team2}}
               </div>
             </div>
