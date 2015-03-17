@@ -5,7 +5,12 @@
     <div class="region region-left">
       <span ng-repeat="round in bracket.south" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <ab-render-game></ab-render-game>
+          <ab-render-game 
+            game="game" 
+            games="games" 
+            picks="picks" 
+            make-pick="makePick"
+          ></ab-render-game>
         </div>
       </span>
     </div>
@@ -13,7 +18,12 @@
     <div class="region region-left">
       <span ng-repeat="round in bracket.east" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <ab-render-game></ab-render-game>
+          <ab-render-game 
+            game="game" 
+            games="games" 
+            picks="picks" 
+            make-pick="makePick"
+          ></ab-render-game>
         </div>
       </span>
     </div>
@@ -93,7 +103,12 @@
     <div class="region region-right">
       <span ng-repeat="round in bracket.west" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <ab-render-game></ab-render-game>
+          <ab-render-game 
+            game="game" 
+            games="games" 
+            picks="picks" 
+            make-pick="makePick"
+          ></ab-render-game>
         </div>
       </span>
     </div>
@@ -101,7 +116,12 @@
     <div class="region region-right">
       <span ng-repeat="round in bracket.midwest" ng-class="getRoundClass($index)">
         <div class="game" ng-repeat="game in round">
-          <ab-render-game></ab-render-game>
+          <ab-render-game 
+            game="game" 
+            games="games" 
+            picks="picks" 
+            make-pick="makePick"
+          ></ab-render-game>
         </div>
       </span>
     </div>

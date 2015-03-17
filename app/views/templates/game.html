@@ -1,14 +1,22 @@
 <div class="slot">
   <div class="teams">
-    <div class="team" ng-click="makePick('team1', game)">
-      {{game.team1}}
-    </div>
+    <ab-render-teams 
+      slot="'team1'" 
+      game="game" 
+      games="games" 
+      picks="picks" 
+      make-pick="makePick"
+    ></ab-render-teams>
   </div>
 </div>
 <div class="slot">
   <div class="teams">
-    <div class="team" ng-click="makePick('team2', game)">
-      {{game.team2}}
-    </div>
+    <ab-render-teams 
+      slot="'team2'" 
+      game="game" 
+      games="games" 
+      picks="picks" 
+      make-pick="makePick"
+    ></ab-render-teams>
   </div>
-</div>  
+</div>

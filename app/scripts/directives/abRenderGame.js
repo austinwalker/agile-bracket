@@ -10,9 +10,15 @@ angular.module('agileBracketApp')
   .directive('abRenderGame', function () {
     return {
       templateUrl: 'views/templates/game.html',
-      restrict: 'E'
+      restrict: 'E',
+      scope: {
+        picks: '=',
+        game: '=',
+        games: '=',
+        makePick: '='
+      }
       // link: function postLink(scope, element, attrs) {
-      //   element.text('this is the abRenderGame directive');
+         
       // }
     };
   });

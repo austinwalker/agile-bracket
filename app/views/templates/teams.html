@@ -1,0 +1,10 @@
+<div class="team" ng-class="correctPick" ng-click="makePick('{{slot}}', game)">
+<!--   tP: {{teamPicked}} <br/>
+  mCT: {{masterCorrectTeam}} <br/>
+  nw:  -->
+  {{notWrongTeam}} 
+  <!-- <br/> -->
+</div>
+<div class="team-wrong" ng-show="!correctPick">
+  {{wrongTeam}}
+</div>

@@ -28,9 +28,22 @@ angular.module('agileBracketApp')
     var games = $firebase(ref.child('games')).$asArray();
     var usersRef = ref.child('users');
     var picksRef = usersRef.child(user.uid).child('picks');
+    var picks = $firebase(picksRef).$asArray();
+
+    $scope.user = user;
+
+    // Load the users personal picks
+    picks.$loaded(function(data) {
+      $scope.picks = data;
+    });
 
     // Sort the games into data usable for the bracket UI
     games.$loaded(function(data) {
+      
+      // Assign to scope for use in RenderTeams directive
+      $scope.games = data;
+
+      // Slice the games up for UI
       _.forEach(regions, function(region) {
         _.forEach(regionalRounds, function(round) {
           var rndGames = _.filter(data, { 'region': region, 'round': round } );
@@ -143,19 +156,21 @@ angular.module('agileBracketApp')
     function advanceTeam(slotToAdvance, gameInfo) {
       var targetGameIndex = getGameIndex(gameInfo.nextGame);
       var targetSlot = gameInfo.nextSlot;
+      
       // Don't advance if it's the championship since there's not a next game
       if (gameInfo.$id !== 'game63') { 
+        console.log('slotToAdvance: ', slotToAdvance);
+        console.log('gameInfo: ', gameInfo);
+        
+        console.log('team: ', gameInfo[slotToAdvance]);
+        console.log('before: ', games[targetGameIndex]);
         games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];  
+        console.log('after: ', games[targetGameIndex]);
       }
     }
 
-    // Wire up rendering user picks
-
     // Wire up scoring user picks
     // JW: If game list per user, just loop through and compare
-
-    // Wire up agile picking
-    // JW: When they click to adavnce a team, check to see if master list has a winner id, if so, the game has already been played
 
     // Wire up agile scoring
     // JW: Have 'Current Round' Firebase property to help lock down past picks.
