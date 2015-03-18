@@ -41,6 +41,7 @@ angular.module('agileBracketApp')
     games.$loaded(function(data) {
       
       // Assign to scope for use in RenderTeams directive
+      // AW: Remove possibly after editing directive?
       $scope.games = data;
 
       // Slice the games up for UI
@@ -62,7 +63,34 @@ angular.module('agileBracketApp')
       $scope.finalsLeft = bracket.finals[0][0];
       $scope.finalsRight = bracket.finals[0][1];
       $scope.championship = bracket.finals[1][0];
+
+      picks.$loaded(function(data) {
+        addBracketPicks(data);
+      });
     });
+
+    
+
+    function addBracketPicks(picks) {
+      _.forEach(picks, function (pick) {
+        var index;
+        var myGame = _.filter(games, { '$id': pick.$id } )[0];
+        
+        if (myGame.round < 6) {
+          // Game is in a region
+          index = myGame.round - 2;
+          var myRegionalRound = bracket[myGame.region][index];  
+          index = _.findKey(myRegionalRound, { '$id': pick.$id });
+          myRegionalRound[index].userPick = pick.winnerId;
+        } else {
+          // Game is in the finals
+          index = myGame.round - 6;
+          var myFinalsRound = bracket.finals[index];
+          index = _.findKey(myFinalsRound, { '$id': pick.$id });
+          myFinalsRound[index].userPick = pick.winnerId;
+        }
+      });
+    }
 
     // Abstracts out UI classes for ng-repeat
     $scope.getRoundClass = function(i) {
@@ -75,9 +103,10 @@ angular.module('agileBracketApp')
 
       // Set the winner of the game on the current game
       var gameIndex = getGameIndex(gameInfo.$id);
+      // JW: remove this line
       games[gameIndex].winnerId = gameInfo[slotToAdvance];
 
-      // UI
+      // UI - JW - This should be removed, since it's added earlier
       advanceTeam(slotToAdvance, gameInfo);
 
       // Firebase
@@ -159,13 +188,13 @@ angular.module('agileBracketApp')
       
       // Don't advance if it's the championship since there's not a next game
       if (gameInfo.$id !== 'game63') { 
-        console.log('slotToAdvance: ', slotToAdvance);
-        console.log('gameInfo: ', gameInfo);
+        // console.log('slotToAdvance: ', slotToAdvance);
+        // console.log('gameInfo: ', gameInfo);
         
-        console.log('team: ', gameInfo[slotToAdvance]);
-        console.log('before: ', games[targetGameIndex]);
+        // console.log('team: ', gameInfo[slotToAdvance]);
+        // console.log('before: ', games[targetGameIndex]);
         games[targetGameIndex][targetSlot] = gameInfo[slotToAdvance];  
-        console.log('after: ', games[targetGameIndex]);
+        // console.log('after: ', games[targetGameIndex]);
       }
     }
 

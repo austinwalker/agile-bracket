@@ -8,3 +8,27 @@
 <div class="team-wrong" ng-show="!correctPick">
   {{wrongTeam}}
 </div>
+
+
+
+
+
+<!-- 
+Click on the UI
+Edits the winnerId property of the picks object
+Angular should be listening to changes on the picks obj
+When it finds a change, it updates the bracket obj
+// Next two lines should happen every time the backet gets refreshed
+DONE - In the bracket obj: Adding a 'userPick' property to the game
+In the bracket obj: Updates the next game's team appropriately
+In the next game, if the winnerId is equal to the old value of 'team1', remove it
+// because that mean that team appears in the "next next" game 
+Go to the next game and do it recursively until the winnerId doesn't match the old value
+
+Which re-renders the UI
+
+angular watch picks.$watch then do this function
+
+The only thing we'll do in firebase is set the picks object
+The less things you can do in FB and the more watching you can do of FB, the better 
+-->
